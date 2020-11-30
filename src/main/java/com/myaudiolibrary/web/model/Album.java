@@ -12,7 +12,6 @@ public class Album {
     @Column(name = "AlbumId")
     private Integer id;
 
-    @Column(name = "Title")
     private String title;
 
     @ManyToOne

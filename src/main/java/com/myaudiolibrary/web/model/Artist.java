@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -13,14 +11,14 @@ import java.util.Set;
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "AlbumId")
+    @Column(name = "ArtistId")
     private Integer id;
 
     @Column(name = "Name")
     private String name;
 
-    @OneToMany(mappedBy = "Artist")
-    @JsonIgnoreProperties("Artist")
+    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("artist")
     private Set<Album> albums = new HashSet<>();
 
     public Artist(){

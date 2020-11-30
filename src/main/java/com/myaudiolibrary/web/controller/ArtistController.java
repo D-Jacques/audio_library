@@ -8,21 +8,39 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
 //The request mapping is the route to access the controller
-@CrossOrigin
-@RestController
+//@CrossOrigin
+//@RestController
+@Controller
 @RequestMapping(value = "/artists")
 public class ArtistController {
 
     @Autowired
+    private ArtistRepository artistRepository;
+
+    //GET /artists/1
+    @RequestMapping(method = RequestMethod.GET, value = "/{idArtist}")
+    public String getArtist(
+            final ModelMap modelArtist,
+            @PathVariable("idArtist") Integer idArtist
+    ){
+        Optional<Artist> artistOptional = artistRepository.findById(idArtist);
+        modelArtist.put("Artist", artistOptional.get());
+        return "detailArtist";
+    }
+
+    /*@Autowired
     private ArtistRepository artistRepository;
 
     //GET /artists/1
@@ -108,5 +126,5 @@ public class ArtistController {
             @PathVariable("artistId") Integer artistId
     ){
         artistRepository.deleteById(artistId);
-    }
+    }*/
 }

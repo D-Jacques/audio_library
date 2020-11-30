@@ -5,14 +5,16 @@ import com.myaudiolibrary.web.repository.AlbumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
-@RestController
+//@CrossOrigin
+//@RestController
+@Controller
 @RequestMapping(value = "/albums")
 public class AlbumController {
 
-    @Autowired
+    /*@Autowired
     private AlbumRepository albumRepository;
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,6 +32,6 @@ public class AlbumController {
             @PathVariable("albumId") Integer albumId
     ){
         albumRepository.deleteById(albumId);
-    }
+    }*/
 
 }

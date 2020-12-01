@@ -16,16 +16,8 @@ import java.util.Optional;
 @Component
 public class MyRunner implements CommandLineRunner {
 
-    @Autowired
-    private ArtistRepository artistRepository;
-
     @Override
     public void run(String... args) throws Exception {
 
-        /*PageRequest pageRequest =  PageRequest.of(0, 10, Sort.Direction.ASC, "Name");
-        Page<Artist> artistList= artistRepository.findAllByName("aerosmith", pageRequest);
-        for (Artist artist : artistList){
-            System.out.println(artist.getName());
-        }*/
     }
 }

@@ -99,6 +99,10 @@ public class ArtistController {
             @PathVariable("artistId") Integer artistId,
             @RequestBody Artist artist
     ){
+        if(artistRepository.findById(artistId).isEmpty()){
+            throw new EntityNotFoundException("L'artiste d'id "+artistId+" que vous essayer de modifier n'existe pas ");
+        }
+
         return artistRepository.save(artist);
     }
 
@@ -107,6 +111,15 @@ public class ArtistController {
     public void deleteArtist(
             @PathVariable("artistId") Integer artistId
     ){
+        Optional<Artist> artist = artistRepository.findById(artistId);
+
+        if(artist.isEmpty()){
+            throw new EntityNotFoundException("L'artiste d'id "+artistId+" que vous essayer de supprimer n'existe pas ");
+        }
+
+        if(artist.get().getAlbums() == null || !(artist.get().getAlbums().isEmpty())){
+            throw new IllegalArgumentException("L'artiste possède encore des albums, vous ne pouvez pas le supprimer !");
+        }
         artistRepository.deleteById(artistId);
     }
 }

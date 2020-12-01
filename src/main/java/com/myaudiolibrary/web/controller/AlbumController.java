@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
+
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/albums")
@@ -19,6 +21,9 @@ public class AlbumController {
     public Album registerAlbum(
             @RequestBody Album album
     ){
+        if(album.getArtist() == null){
+            throw new EntityNotFoundException("Vous essayez d'ajouter un album sans artiste !");
+        }
 
         return albumRepository.save(album);
 
@@ -29,6 +34,9 @@ public class AlbumController {
     public void deleteAlbum(
             @PathVariable("albumId") Integer albumId
     ){
+        if(albumRepository.findById(albumId).isEmpty()){
+            throw new EntityNotFoundException("Vous essayez de supprimer un album qui n'existe pas !");
+        }
         albumRepository.deleteById(albumId);
     }
 

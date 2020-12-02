@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>IpiMdd050EvalWeb</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,46 +50,11 @@
               <th scope="col"></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody th:each="artist : ${artists}">
             <tr>
-              <th scope="row">A Cor Do Som</th>
+              <!--/*@thymesVar id="name" type="java.lang.String"*/-->
+              <th scope="row" th:text="${artist.name}"></th>
               <td><a href="#">Détail</a></td>
-            </tr>
-            <tr>
-              <th scope="row">Aaron Copland &amp; London Symphony Orchestra</th>
-              <td><a href="#">Détail</a></td>
-            </tr>
-            <tr>
-              <th scope="row">Aaron Goldberg</th>
-              <td><a href="#">Détail</a></td>
-            </tr>
-            <tr>
-              <th scope="row">AC/DC</th>
-              <td><a href="#">Détail</a></td>
-            </tr>
-            <tr>
-              <th scope="row">Academy of St. Martin in the Fields &amp; Sir Neville Marriner</th>
-              <td><a href="#" class="btn btn-primary">Détail</a></td>
-            </tr>
-            <tr>
-              <th scope="row">Academy of St. Martin in the Fields Chamber Ensemble &amp; Sir Neville Marriner</th>
-              <td><a href="#" class="btn btn-primary">Détail</a></td>
-            </tr>
-            <tr>
-              <th scope="row">Academy of St. Martin in the Fields, John Birch, Sir Neville Marriner &amp; Sylvia McNair</th>
-              <td><a href="#" class="btn btn-primary">Détail</a></td>
-            </tr>
-            <tr>
-              <th scope="row">Academy of St. Martin in the Fields, Sir Neville Marriner &amp; Thurston Dart</th>
-              <td><a href="#" class="btn btn-primary">Détail</a></td>
-            </tr>
-            <tr>
-              <th scope="row">Academy of St. Martin in the Fields, Sir Neville Marriner &amp; William Bennett</th>
-              <td><a href="#" class="btn btn-primary">Détail</a></td>
-            </tr>
-            <tr>
-              <th scope="row">Accept</th>
-              <td><a href="#" class="btn btn-primary">Détail</a></td>
             </tr>
           </tbody>
         </table>

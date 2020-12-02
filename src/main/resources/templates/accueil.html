@@ -27,9 +27,10 @@
           <li class="active"><a href="#" class="nav-link ember-view">Liste des artistes</a></li>
         </ul>
 
-        <form role="search" class="navbar-form navbar-right">
+        <!-- th:action="'/employes/' + ${Employe.className.toLowerCase()}" -->
+        <form role="search" class="navbar-form navbar-right" th:action="'/artists?name='+${#request.getParameter('name')}">
           <div class="form-group">
-            <input type="text" placeholder="Rechercher par nom" class="ember-text-field form-control ember-view">
+            <input type="text" placeholder="Rechercher par nom" class="ember-text-field form-control ember-view" th:value="${artistName}">
           </div>
           <button type="submit" class="btn btn-default">Rechercher</button>
         </form>
@@ -80,4 +81,6 @@
         </ul>
       </div>
     </div>
-  </div></body></html>
+  </div>
+</body>
+</html>

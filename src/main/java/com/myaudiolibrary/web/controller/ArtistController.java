@@ -15,6 +15,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.ServletContext;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,9 @@ public class ArtistController {
     @Autowired
     private ArtistRepository artistRepository;
 
+    @Autowired
+    ServletContext context;
+
     //GET /artists/1
     @RequestMapping(method = RequestMethod.GET, value = "/{idArtist}")
     public String getArtist(
@@ -39,6 +43,34 @@ public class ArtistController {
         modelArtist.put("Artist", artistOptional.get());
         return "detailArtist";
     }
+
+    //GET /artists?name=aerosmith (Sous forme de Page)
+    @RequestMapping(method = RequestMethod.GET, params = {"name"})
+    public String getArtistByName(
+            final ModelMap artistMap,
+            @RequestParam(value = "name") String name,
+            @RequestParam(value = "page") Integer page,
+            @RequestParam(value = "size") Integer size,
+            @RequestParam(defaultValue = "name") String sortProperty,
+            @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection
+    ){
+        /*if(page < 0){
+            throw new IllegalArgumentException("La valeur Page ne peut pas être négative !");
+        }
+        if(size <= 0 || size >= 50){
+            throw new IllegalArgumentException("La valeur de la taille ne peux pas être nulle ou négative ou supérieur à 50!");
+        }
+        if(!("ASC".equalsIgnoreCase(sortDirection)) && !("DESC".equalsIgnoreCase(sortDirection))){
+            throw new IllegalArgumentException("Le paramètre sortDirection doit valoir soit ASC soit DESC");
+        }*/
+
+        PageRequest pageRequest =  PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sortProperty);
+        Page<Artist> artistList= artistRepository.findAllByNameContaining(name, pageRequest);
+        artistMap.put("artists", artistList);
+
+        return "listeArtists";
+    }
+
 
     /*@Autowired
     private ArtistRepository artistRepository;

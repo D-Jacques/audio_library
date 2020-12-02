@@ -49,9 +49,9 @@ public class ArtistController {
     public String getArtistByName(
             final ModelMap artistMap,
             @RequestParam(value = "name") String name,
-            @RequestParam(value = "page") Integer page,
-            @RequestParam(value = "size") Integer size,
-            @RequestParam(defaultValue = "name") String sortProperty,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "sortProperty", defaultValue = "name") String sortProperty,
             @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection
     ){
         /*if(page < 0){
@@ -66,6 +66,52 @@ public class ArtistController {
 
         PageRequest pageRequest =  PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sortProperty);
         Page<Artist> artistList= artistRepository.findAllByNameContaining(name, pageRequest);
+
+        artistMap.put("size", size);
+        artistMap.put("sortProperty", sortProperty);
+        artistMap.put("sortDirection", sortDirection);
+        artistMap.put("pageNumber", page + 1);
+        artistMap.put("previousPage", page - 1);
+        artistMap.put("nextPage", page + 1);
+        artistMap.put("start", page * size + 1);
+        artistMap.put("end", (page)*size + artistList.getNumberOfElements());
+
+        artistMap.put("artists", artistList);
+
+        return "listeArtists";
+    }
+
+    //GET /artists?name=aerosmith (Sous forme de Page)
+    @RequestMapping(method = RequestMethod.GET)
+    public String getALlArtist(
+            final ModelMap artistMap,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "sortProperty", defaultValue = "name") String sortProperty,
+            @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection
+    ){
+        /*if(page < 0){
+            throw new IllegalArgumentException("La valeur Page ne peut pas être négative !");
+        }
+        if(size <= 0 || size >= 50){
+            throw new IllegalArgumentException("La valeur de la taille ne peux pas être nulle ou négative ou supérieur à 50!");
+        }
+        if(!("ASC".equalsIgnoreCase(sortDirection)) && !("DESC".equalsIgnoreCase(sortDirection))){
+            throw new IllegalArgumentException("Le paramètre sortDirection doit valoir soit ASC soit DESC");
+        }*/
+
+        PageRequest pageRequest =  PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sortProperty);
+        Page<Artist> artistList= artistRepository.findAll( pageRequest);
+
+        artistMap.put("size", size);
+        artistMap.put("sortProperty", sortProperty);
+        artistMap.put("sortDirection", sortDirection);
+        artistMap.put("pageNumber", page + 1);
+        artistMap.put("previousPage", page - 1);
+        artistMap.put("nextPage", page + 1);
+        artistMap.put("start", page * size + 1);
+        artistMap.put("end", (page)*size + artistList.getNumberOfElements());
+
         artistMap.put("artists", artistList);
 
         return "listeArtists";

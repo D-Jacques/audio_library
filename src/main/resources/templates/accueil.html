@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>IpiMdd050EvalWeb</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="#">
+  <link rel="stylesheet" href="https://bootswatch.com/3/journal/bootstrap.min.css">
 </head>
 <body class="ember-application">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
@@ -24,13 +24,17 @@
 
       <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#" class="nav-link ember-view">Liste des artistes</a></li>
+          <li class="active"><a th:href="'/artists?page=0&size=10&sortProperty=name&sortDirection=ASC'" class="nav-link ember-view">Liste des artistes</a></li>
         </ul>
 
         <!-- th:action="'/employes/' + ${Employe.className.toLowerCase()}" -->
-        <form role="search" class="navbar-form navbar-right" th:action="'/artists?name='+${#request.getParameter('name')}">
+        <form method="get" role="search" class="navbar-form navbar-right" th:action="'/artists'">
           <div class="form-group">
-            <input type="text" placeholder="Rechercher par nom" class="ember-text-field form-control ember-view" th:value="${artistName}">
+            <input type="text" name="name" placeholder="Rechercher par nom" class="ember-text-field form-control ember-view">
+<!--            <input type="hidden" value="0" name="page" class="ember-text-field form-control ember-view">
+            <input type="hidden" value="10" name="size" class="ember-text-field form-control ember-view">
+            <input type="hidden" value="asc" name="sortDirection" class="ember-text-field form-control ember-view">
+            <input type="hidden" value="name" name="sortProperty" class="ember-text-field form-control ember-view">-->
           </div>
           <button type="submit" class="btn btn-default">Rechercher</button>
         </form>

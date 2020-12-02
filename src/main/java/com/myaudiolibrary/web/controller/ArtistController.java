@@ -18,10 +18,12 @@ import java.util.Optional;
 
 //The request mapping is the route to access the controller
 @CrossOrigin
+//we're in a RestController
 @RestController
 @RequestMapping(value = "/artists")
 public class ArtistController {
 
+    //AutoWireing the Repository so as to gather the data from our repository
     @Autowired
     private ArtistRepository artistRepository;
 
@@ -31,6 +33,7 @@ public class ArtistController {
             @PathVariable("idArtist") Integer idArtist
     ){
         Optional<Artist> artistOptional = artistRepository.findById(idArtist);
+        //If the artist has not been found we throw a 404 error
         if(artistOptional.isEmpty()){
             throw new EntityNotFoundException("L'artiste "+idArtist+" n'a pas été trouvé !");
         }
@@ -46,6 +49,8 @@ public class ArtistController {
             @RequestParam(defaultValue = "name") String sortProperty,
             @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection
     ){
+        //Many condition, if page is negative, if size is not between 1 and 49 or if sortDirection is differents from ASC or DESC we return a illegal argument exception
+        //as the user would be trying to execute a request with false parameters
         if(page < 0){
             throw new IllegalArgumentException("La valeur Page ne peut pas être négative !");
         }
@@ -57,6 +62,7 @@ public class ArtistController {
         }
 
         PageRequest pageRequest =  PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sortProperty);
+        //findAllByNameContaining will look for all the artists with a name like the name value get in
         Page<Artist> artistList= artistRepository.findAllByNameContaining(name, pageRequest);
         return artistList;
     }
@@ -102,7 +108,7 @@ public class ArtistController {
         if(artistRepository.findById(artistId).isEmpty()){
             throw new EntityNotFoundException("L'artiste d'id "+artistId+" que vous essayer de modifier n'existe pas ");
         }
-
+        //We save our artists and returns it to our front view
         return artistRepository.save(artist);
     }
 
@@ -117,6 +123,7 @@ public class ArtistController {
             throw new EntityNotFoundException("L'artiste d'id "+artistId+" que vous essayer de supprimer n'existe pas ");
         }
 
+        //I added this condition here, if the artist still have albums, we prevent his supression
         if(artist.get().getAlbums() == null || !(artist.get().getAlbums().isEmpty())){
             throw new IllegalArgumentException("L'artiste possède encore des albums, vous ne pouvez pas le supprimer !");
         }

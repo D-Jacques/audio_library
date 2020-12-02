@@ -10,6 +10,7 @@ import java.util.Set;
 @Table(name = "artist")
 public class Artist {
     @Id
+    //We set the GenerationType to Identity to create automacitally unique IDs
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ArtistId")
     private Integer id;
@@ -17,6 +18,7 @@ public class Artist {
     @Column(name = "Name")
     private String name;
 
+    //Part one from our OneToMany relation, the Attribute that ensure the relation in albums is named artist
     @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("artist")
     private Set<Album> albums = new HashSet<>();

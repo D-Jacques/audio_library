@@ -34,6 +34,7 @@ public class AlbumController {
     public void deleteAlbum(
             @PathVariable("albumId") Integer albumId
     ){
+        //if we try to delete an album that doesn't exists
         if(albumRepository.findById(albumId).isEmpty()){
             throw new EntityNotFoundException("Vous essayez de supprimer un album qui n'existe pas !");
         }

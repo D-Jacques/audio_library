@@ -9,11 +9,13 @@ public class Album {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //I used @column annotation as the name of my attribute here is different from the name of the column in DB
     @Column(name = "AlbumId")
     private Integer id;
 
     private String title;
 
+    //Part many of out relation ManyToOne
     @ManyToOne
     @JoinColumn(name = "ArtistId")
     private Artist artist;

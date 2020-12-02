@@ -21,6 +21,7 @@ public class Artist {
     //Part one from our OneToMany relation, the Attribute that ensure the relation in albums is named artist
     @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("artist")
+    //We net a HashSet to store many values
     private Set<Album> albums = new HashSet<>();
 
     public Artist(){

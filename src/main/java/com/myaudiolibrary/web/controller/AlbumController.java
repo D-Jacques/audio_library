@@ -17,6 +17,7 @@ public class AlbumController {
     @Autowired
     private AlbumRepository albumRepository;
 
+    //Create an album for an arsist with a POST method
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Album registerAlbum(
             @RequestBody Album album
@@ -25,10 +26,12 @@ public class AlbumController {
             throw new EntityNotFoundException("Vous essayez d'ajouter un album sans artiste !");
         }
 
+        //We save the album and return its content to the fronEnd
         return albumRepository.save(album);
 
     }
 
+    //Delete an album from a artist
     @RequestMapping(method = RequestMethod.DELETE, value = "/{albumId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAlbum(
@@ -38,6 +41,7 @@ public class AlbumController {
         if(albumRepository.findById(albumId).isEmpty()){
             throw new EntityNotFoundException("Vous essayez de supprimer un album qui n'existe pas !");
         }
+        //We use the method deleteByID From our repository to delete the album
         albumRepository.deleteById(albumId);
     }
 

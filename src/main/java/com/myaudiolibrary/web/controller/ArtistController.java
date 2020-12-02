@@ -28,19 +28,24 @@ public class ArtistController {
     private ArtistRepository artistRepository;
 
     //GET /artists/1
+    //Get an artist with his id
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/{idArtist}")
     public Artist getArtist(
             @PathVariable("idArtist") Integer idArtist
     ){
+        //Optionnal means that we can get one or not
         Optional<Artist> artistOptional = artistRepository.findById(idArtist);
+
         //If the artist has not been found we throw a 404 error
         if(artistOptional.isEmpty()){
             throw new EntityNotFoundException("L'artiste "+idArtist+" n'a pas été trouvé !");
         }
+        //We use get as artist is a Optional<Artist> here
         return artistOptional.get();
     }
 
     //GET /artists?name=aerosmith (Sous forme de Page)
+    //Get multiples artists with a name or the letters in his name
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, params = {"name"})
     public Page<Artist> getArtistByName(
             @RequestParam(value = "name") String name,
@@ -61,6 +66,7 @@ public class ArtistController {
             throw new IllegalArgumentException("Le paramètre sortDirection doit valoir soit ASC soit DESC");
         }
 
+        //Creating a PageRequest to get and store our page Object next lines
         PageRequest pageRequest =  PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sortProperty);
         //findAllByNameContaining will look for all the artists with a name like the name value get in
         Page<Artist> artistList= artistRepository.findAllByNameContaining(name, pageRequest);
@@ -68,8 +74,10 @@ public class ArtistController {
     }
 
     //GET /artists?page=0&size=10&sortProperty=name&sortDirection=ASC
+    //Get all the artists in the database
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<Artist> getAllArtist(
+            //We use some defaults values here is the user forgot to fill some
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(defaultValue = "name") String sortProperty,
@@ -89,6 +97,7 @@ public class ArtistController {
         return artistList;
     }
 
+    //Register an artist with a POST method
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Artist registerArtist(
             @RequestBody Artist artist
@@ -96,10 +105,12 @@ public class ArtistController {
         if(artistRepository.existsByName(artist.getName())){
             throw new EntityExistsException("L'artiste de nom "+artist.getName()+" existe déjà !");
         }
+        //Here we only return our saved artist
         artist = artistRepository.save(artist);
         return artist;
     }
 
+    //Modify an artists with a PUT method
     @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/{artistId}")
     public Artist modifyArtist(
             @PathVariable("artistId") Integer artistId,
@@ -112,13 +123,17 @@ public class ArtistController {
         return artistRepository.save(artist);
     }
 
+    //Delete an artists with a DELETE method
+    //Note that we don't need to return anything here
     @RequestMapping(method = RequestMethod.DELETE, value = "/{artistId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteArtist(
             @PathVariable("artistId") Integer artistId
     ){
+        //We first check if we find an artist with this id
         Optional<Artist> artist = artistRepository.findById(artistId);
 
+        //If we don't we throw an exception
         if(artist.isEmpty()){
             throw new EntityNotFoundException("L'artiste d'id "+artistId+" que vous essayer de supprimer n'existe pas ");
         }
@@ -127,6 +142,7 @@ public class ArtistController {
         if(artist.get().getAlbums() == null || !(artist.get().getAlbums().isEmpty())){
             throw new IllegalArgumentException("L'artiste possède encore des albums, vous ne pouvez pas le supprimer !");
         }
+        //We delete the artists if there was no error
         artistRepository.deleteById(artistId);
     }
 }

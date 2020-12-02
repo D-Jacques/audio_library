@@ -11,13 +11,15 @@ import javax.persistence.EntityNotFoundException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    //Everytime we throw an exception, it's handled with this method
+    //Everytime we throw an exception, it's handled with a handle method
+    //ERROR404
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleEntityNotFoundException(EntityNotFoundException entityNotFoundException){
         return entityNotFoundException.getMessage();
     }
 
+    //ERROR400
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleIllegalArgumentException(
@@ -26,6 +28,7 @@ public class GlobalExceptionHandler {
         return illegalArgumentException.getMessage();
     }
 
+    //ERROR409
     @ExceptionHandler(EntityExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleEntityExistsException(

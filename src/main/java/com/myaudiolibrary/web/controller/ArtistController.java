@@ -1,6 +1,8 @@
 package com.myaudiolibrary.web.controller;
 
+import com.myaudiolibrary.web.model.Album;
 import com.myaudiolibrary.web.model.Artist;
+import com.myaudiolibrary.web.repository.AlbumRepository;
 import com.myaudiolibrary.web.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -41,6 +44,7 @@ public class ArtistController {
     ){
         Optional<Artist> artistOptional = artistRepository.findById(idArtist);
         modelArtist.put("Artist", artistOptional.get());
+        modelArtist.put("albumToCreate", new Album());
         return "detailArtist";
     }
 
@@ -117,7 +121,36 @@ public class ArtistController {
         return "listeArtists";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/new")
+    public String createArtist(final ModelMap artistMap){
+        artistMap.put("Artist", new Artist());
+        artistMap.put("albumToCreate", new Album());
+        return "detailArtist";
+    }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/registerArtist", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public RedirectView registerArtist(Artist artist, final ModelMap artistMap){
+        return saveArtist(artist, artistMap);
+    }
+
+    private RedirectView saveArtist(Artist artist, ModelMap artistMap){
+        artist = artistRepository.save(artist);
+        artistMap.put("Artist", artist);
+        return new RedirectView("/artists/"+ artist.getId());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{idArtist}/delete")
+    public RedirectView deleteArtist(@PathVariable("idArtist") Integer idArtist, final ModelMap artistMap){
+        artistRepository.deleteById(idArtist);
+        return new RedirectView("/artists");
+    }
+
+/*    @RequestMapping(method = RequestMethod.PUT, value = "/{idArtist}/update")
+    public RedirectView editArtist(@PathVariable("idArtist") Integer idArtist, Artist artist,final ModelMap artistMap){
+        artist = artistRepository.save(artist);
+        artistMap.put("Artist", artist);
+        return new RedirectView("/artists/"+ artist.getId());
+    }*/
     /*@Autowired
     private ArtistRepository artistRepository;
 

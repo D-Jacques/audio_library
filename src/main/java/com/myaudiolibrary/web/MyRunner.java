@@ -1,5 +1,6 @@
 package com.myaudiolibrary.web;
 
+import com.myaudiolibrary.web.controller.AlbumController;
 import com.myaudiolibrary.web.model.Album;
 import com.myaudiolibrary.web.model.Artist;
 import com.myaudiolibrary.web.repository.ArtistRepository;
@@ -22,10 +23,5 @@ public class MyRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        /*PageRequest pageRequest =  PageRequest.of(0, 10, Sort.Direction.ASC, "Name");
-        Page<Artist> artistList= artistRepository.findAllByName("aerosmith", pageRequest);
-        for (Artist artist : artistList){
-            System.out.println(artist.getName());
-        }*/
     }
 }

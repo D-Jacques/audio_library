@@ -68,15 +68,15 @@
           </li>
           <li class="list-group-item">
             <h4 class="list-group-item-heading">6 - Suppression d'un artiste</h4>
-            <p class="list-group-item-text">En cliquant <a href="#">ici</a> ou en consultant les détails de l'artiste <em>Alice In Chains</em> (id 5), il est possible de supprimer ce dernier lorsqu'on clique sur le bouton <em>Supprimer</em>. L'appel qui est effectué est <code>DELETE /artists/5</code>.</p>
+            <p class="list-group-item-text">En cliquant <a th:href="'/artists/5/delete'">ici</a> ou en consultant les détails de l'artiste <em>Alice In Chains</em> (id 5), il est possible de supprimer ce dernier lorsqu'on clique sur le bouton <em>Supprimer</em>. L'appel qui est effectué est <code>DELETE /artists/5</code>.</p>
           </li>
           <li class="list-group-item">
             <h4 class="list-group-item-heading">7 - Ajout d'un album</h4>
-            <p class="list-group-item-text">En cliquant <a href="#">ici</a> ou en consultant les détails de l'artiste <em>Alice In Chains</em> (id 5), il est possible d'ajouter un album en renseignant le champ et en cliquant sur le <span class="glyphicon glyphicon-plus"></span>. L'appel qui est effectué est <code>POST /albums</code>.</p>
+            <p class="list-group-item-text">En cliquant <a th:href="@{/artists/5}">ici</a> ou en consultant les détails de l'artiste <em>Alice In Chains</em> (id 5), il est possible d'ajouter un album en renseignant le champ et en cliquant sur le <span class="glyphicon glyphicon-plus"></span>. L'appel qui est effectué est <code>POST /albums</code>.</p>
           </li>
           <li class="list-group-item">
             <h4 class="list-group-item-heading">8 - Suppression d'un album</h4>
-            <p class="list-group-item-text">En cliquant <a href="#">ici</a> ou en consultant les détails de l'artiste <em>Alice In Chains</em> (id 5), il est possible de supprimer un album en cliquant sur le <span class="glyphicon glyphicon-minus"></span>. L'appel qui est effectué est <code>DELETE /albums/X</code> avec <em>X</em> correspondant à l'identifiant technique de l'album.</p>
+            <p class="list-group-item-text">En cliquant <a th:href="@{/artists/5}">ici</a> ou en consultant les détails de l'artiste <em>Alice In Chains</em> (id 5), il est possible de supprimer un album en cliquant sur le <span class="glyphicon glyphicon-minus"></span>. L'appel qui est effectué est <code>DELETE /albums/X</code> avec <em>X</em> correspondant à l'identifiant technique de l'album.</p>
           </li>
         </ul>
       </div>

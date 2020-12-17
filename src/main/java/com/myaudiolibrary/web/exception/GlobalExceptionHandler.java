@@ -11,7 +11,9 @@ import javax.persistence.EntityNotFoundException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(EntityNotFoundException.class)
+
+
+/*    @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleEntityNotFoundException(EntityNotFoundException entityNotFoundException){
         return entityNotFoundException.getMessage();
@@ -31,5 +33,5 @@ public class GlobalExceptionHandler {
             EntityExistsException entityExistsException
     ){
         return entityExistsException.getMessage();
-    }
+    }*/
 }

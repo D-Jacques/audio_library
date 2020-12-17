@@ -58,25 +58,29 @@
 								</div>
 								<div class="col-lg-2 text-center">
 									<div class="list-group text-center">
-										<button class="btn-danger list-group-item list-group-item-action"><span class="glyphicon glyphicon-remove"></span></button>
+										<a th:href="'/albums/'+${Album.id}" class="btn-danger list-group-item list-group-item-action"><span class="glyphicon glyphicon-remove"></span></a>
 									</div>
-								</div>
-							</div>
-							<div class="row">
-								<form id="saveAlbum" th:action="'/albums/registerAlbum'" method="post">
-									<div class="col-lg-10">
-										<input name="id" type="hidden" th:value="${albumToCreate.id}">
-										<input name="title" type="text" placeholder="Ajouter un album..." class="form-control ember-text-field ember-view" th:value="${albumToCreate.title}">
-									</div>
-								</form>
-								<div class="col-lg-2 text-center">
-									<button form="saveAlbum" type="submit" class="btn-success list-group-item list-group-item-action"><span class="glyphicon glyphicon-plus"></span></button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 
+			</form>
+
+			<form id="saveAlbum" th:action="'/albums'" method="post" class="row">
+				<div class="row">
+					<div class="form-group">
+						<div class="col-lg-10">
+							<input name="title" type="text" placeholder="Ajouter un album..." class="form-control ember-text-field ember-view" th:value="${albumToCreate.title}">
+							<input name="artist" type="hidden" th:value="${Artist.id}">
+						</div>
+
+						<div class="col-lg-2 text-center">
+							<button form="saveAlbum" type="submit" class="btn-success list-group-item list-group-item-action"><span class="glyphicon glyphicon-plus"></span></button>
+						</div>
+					</div>
+				</div>
 			</form>
 
 			<div class="row mt-2">

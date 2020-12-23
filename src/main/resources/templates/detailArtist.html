@@ -39,7 +39,9 @@
 		</nav>
 
 		<div class="container">
+			<!-- ici avec la syntaxe [[${Artist.name}]] on effectue un affichage du nom de l'artiste envoyé par le ModelMap dans le controller -->
 			<h2>Détail de l'artiste [[${Artist.name}]]</h2>
+			<!-- th:action nous permet d'indiquer la route du controller à executer lors de l'envoi du formulaire -->
 			<form id="saveForm" th:action="'/artists/registerArtist'" method="post" class="row">
 
 				<div class="row">
@@ -47,6 +49,7 @@
 						<div class="form-group">
 							<label for="name" class="form-control-label">Nom</label>
 							<input type="hidden" name="id" th:value="${Artist.id}">
+							<!-- Le th:value ici nous permet de récupérer l'attribut name de l'artiste envoyé par le ModelMap -->
 							<input type="text" name="name" id="name" class="ember-text-field form-control ember-view" th:value="${Artist.name}">
 
 						</div>
@@ -61,6 +64,8 @@
 						<div class="form-group">
 
 							<label for="performance" class="form-control-label">Albums</label>
+							<!-- Ici le th:each correspond a un forEach -->
+							<!-- Pour chaque albums que l'artiste possède on répète le html inclus dans la div qui porte le th:each -->
 							<div class="row" th:each="Album : ${Artist.albums}">
 								<form id="deleteAlbum" th:action="'/albums/'+${Album.id}">
 									<div class="col-lg-10">

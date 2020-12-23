@@ -23,9 +23,12 @@ public class AlbumController {
     @Autowired
     private AlbumRepository albumRepository;
 
+    //Quand on veut enregistrer un album à un artiste on passe par cette route, a noté que l'on passe aussi
+    //par la vue qui permet de visualiser un artiste et ses albums
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public RedirectView registerAlbum(final ModelMap albumMap, Album album, Artist artist)
     {
+        //On retourne une exception si on créer un album sans nom et si on essaye d'ajouter un album sans artiste
         if(album.getTitle().isEmpty()){
             throw new IllegalArgumentException("Vous ne pouvez pas créer d'albums sans nom !");
         }
@@ -39,12 +42,15 @@ public class AlbumController {
 
     }
 
+    //Suppression de l'artiste
     @RequestMapping(method = RequestMethod.GET, value = "/{albumId}")
     public RedirectView deleteAlbum(@PathVariable("albumId") Integer albumId, final ModelMap albumMap, Artist artist){
+        //Si on tente de supprimer un album qui n'existe pas, existById est présente nativement
         if(!(albumRepository.existsById(albumId))){
             throw new EntityNotFoundException("L'album d'id "+albumId+" N'existe pas !");
         }
         albumRepository.deleteById(albumId);
+        //On redirige sur la route /artists/artistId
         return new RedirectView("/artists/"+artist.getId());
     }
 

@@ -27,7 +27,6 @@
           <li class="active"><a th:href="'/artists?page=0&size=10&sortProperty=name&sortDirection=ASC'" class="nav-link ember-view">Liste des artistes</a></li>
         </ul>
 
-        <!-- th:action="'/employes/' + ${Employe.className.toLowerCase()}" -->
         <form method="get" role="search" class="navbar-form navbar-right" th:action="'/artists'">
           <div class="form-group">
             <input type="text" name="name" placeholder="Rechercher par nom" class="ember-text-field form-control ember-view">

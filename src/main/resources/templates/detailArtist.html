@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>IpiMdd050EvalWeb</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://bootswatch.com/3/journal/bootstrap.min.css">
+</head>
+<body class="ember-application">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<div>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" class="navbar-toggle collapsed">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="/" class="navbar-brand">Librairie Audio</a>
+				</div>
+
+				<div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li class="active"><a th:href="@{/artists(page=0,size=10,sortDirection='ASC',sortProperty='name')}" class="nav-link ember-view">Liste des artistes</a></li>
+					</ul>
+
+					<form method="get" role="search" class="navbar-form navbar-right" th:action="'/artists'">
+						<div class="form-group">
+							<input type="text" name="name" placeholder="Rechercher par nom" class="ember-text-field form-control ember-view">
+						</div>
+						<button type="submit" class="btn btn-default">Rechercher</button>
+					</form>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container">
+			<!-- ici avec la syntaxe [[${Artist.name}]] on effectue un affichage du nom de l'artiste envoyé par le ModelMap dans le controller -->
+			<h2>Détail de l'artiste [[${Artist.name}]]</h2>
+			<!-- th:action nous permet d'indiquer la route du controller à executer lors de l'envoi du formulaire -->
+			<form id="saveForm" th:action="'/artists/registerArtist'" method="post" class="row">
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label for="name" class="form-control-label">Nom</label>
+							<input type="hidden" name="id" th:value="${Artist.id}">
+							<!-- Le th:value ici nous permet de récupérer l'attribut name de l'artiste envoyé par le ModelMap -->
+							<input type="text" name="name" id="name" class="ember-text-field form-control ember-view" th:value="${Artist.name}">
+
+						</div>
+					</div>
+				</div>
+
+			</form>
+
+			<div class="row">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="form-group">
+
+							<label for="performance" class="form-control-label">Albums</label>
+							<!-- Ici le th:each correspond a un forEach -->
+							<!-- Pour chaque albums que l'artiste possède on répète le html inclus dans la div qui porte le th:each -->
+							<div class="row" th:each="Album : ${Artist.albums}">
+								<form id="deleteAlbum" th:action="'/albums/'+${Album.id}">
+									<div class="col-lg-10">
+										<div class="list-group">
+											<li class="list-group-item">&nbsp;[[${Album.title}]]</li>
+										</div>
+									</div>
+									<div class="col-lg-2 text-center">
+										<div class="list-group text-center">
+											<input name="artist" type="hidden" th:value="${Artist.id}">
+											<button form="deleteAlbum" type="submit" class="btn-danger list-group-item list-group-item-action"><span class="glyphicon glyphicon-remove"></span></button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<form id="saveAlbum" th:action="'/albums'" method="post" class="row">
+				<div class="row">
+					<div class="form-group">
+						<div class="col-lg-10">
+							<input name="title" type="text" placeholder="Ajouter un album..." class="form-control ember-text-field ember-view" th:value="${albumToCreate.title}">
+							<input name="artist" type="hidden" th:value="${Artist.id}">
+						</div>
+
+						<div class="col-lg-2 text-center">
+							<button form="saveAlbum" type="submit" class="btn-success list-group-item list-group-item-action"><span class="glyphicon glyphicon-plus"></span></button>
+						</div>
+					</div>
+				</div>
+			</form>
+
+			<div class="row mt-2">
+				<div class="col-lg-6">
+					<input form="saveForm" class="btn btn-primary" type="submit" value="Enregistrer">
+					<a class="btn btn-danger" th:href="'/artists/'+${Artist.id}+'/delete'">Supprimer</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
